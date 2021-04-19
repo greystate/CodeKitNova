@@ -36,11 +36,12 @@ function pathToCodeKitFolder() {
 
 function addProjectToCodeKit()
 {
-    if (!nova.workspace.path) {
+    var codekitPath = pathToCodeKitFolder();
+    if (!codekitPath) {
         return;
     }
 
-    var scriptCommand = 'tell application "CodeKit" to add project at path "' + nova.workspace.path + '"';
+    var scriptCommand = 'tell application "CodeKit" to add project at path "' + codekitPath + '"';
     var options = {
         args: [ "-e", scriptCommand]
     };
@@ -51,12 +52,13 @@ function addProjectToCodeKit()
 
 
 function switchProjectInCodeKit()
-{    
-    if (!nova.workspace.path) {
+{
+    var codekitPath = pathToCodeKitFolder();
+    if (!codekitPath) {
         return;
     }
     
-    var scriptCommand = 'tell application "CodeKit" to select project containing path "' + nova.workspace.path + '"';
+    var scriptCommand = 'tell application "CodeKit" to select project containing path "' + codekitPath + '"';
     var options = {
         args: [ "-e", scriptCommand]
     };
@@ -68,8 +70,9 @@ function switchProjectInCodeKit()
 
 
 function workspaceDidChangePath(newPath)
-{    
-    if (!nova.workspace.path) {
+{
+    var codekitPath = pathToCodeKitFolder();
+    if (!codekitPath) {
         return;
     }
     
@@ -81,13 +84,13 @@ function workspaceDidChangePath(newPath)
         // This isn't GREAT because any file with this name will trigger; we don't verify the file actually
         // contains CodeKit data. But I already feel dirty writing JavaScript and I don't wanna write more.
         // Not an edge case worth worrying about. No security risk if we add a junk project to CodeKit.
-        var configFilePath = nova.workspace.path + "/config.codekit3";                  
+        var configFilePath = codekitPath + "/config.codekit3";                  
         var configExists = (!nova.fs.stat(configFilePath)) ? false : true;
         
         if (!configExists) 
         {
             // CodeKit config files can optionally be hidden.
-            var altConfigFilePath = nova.workspace.path + "/.config.codekit3";
+            var altConfigFilePath = codekitPath + "/.config.codekit3";
             configExists = (!nova.fs.stat(altConfigFilePath)) ? false : true;
         }
         
@@ -126,7 +129,8 @@ function workspaceDidChangePath(newPath)
 ///  Refresh Project
 nova.commands.register("CodeKit.refreshProject", (workspace) => 
 {
-    if (!nova.workspace.path) 
+    var codekitPath = pathToCodeKitFolder();
+    if (!codekitPath)
     {
         nova.workspace.showInformativeMessage(
             nova.localize("This workspace has no path; it cannot be refreshed in CodeKit.")
@@ -134,7 +138,7 @@ nova.commands.register("CodeKit.refreshProject", (workspace) =>
         return;
     }
       
-    var scriptCommand = 'tell application "CodeKit" to refresh project containing path "' + workspace.path + '"';
+    var scriptCommand = 'tell application "CodeKit" to refresh project containing path "' + codekitPath + '"';
     var options = {
         args: ["-e", scriptCommand]
     };
@@ -163,7 +167,8 @@ nova.commands.register("CodeKit.refreshProject", (workspace) =>
 ///  Build Project
 nova.commands.register("CodeKit.buildProject", (workspace) => 
 {
-    if (!nova.workspace.path) 
+    var codekitPath = pathToCodeKitFolder();
+    if (!codekitPath)
     {
         nova.workspace.showInformativeMessage(
             nova.localize("This workspace has no path; it cannot be built in CodeKit.")
@@ -171,7 +176,7 @@ nova.commands.register("CodeKit.buildProject", (workspace) =>
         return;
     }
       
-    var scriptCommand = 'tell application "CodeKit" to build project containing path "' + workspace.path + '"';
+    var scriptCommand = 'tell application "CodeKit" to build project containing path "' + codekitPath + '"';
     var options = {
         args: [ "-e", scriptCommand]
     };
