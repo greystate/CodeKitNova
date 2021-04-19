@@ -19,7 +19,20 @@ exports.deactivate = function()
 /// 
 /// Internal Functions
 /// ------------------------------------------------------------------------------------------------------------------
-
+function pathToCodeKitFolder() {
+    var workspacePath = nova.workspace.path;
+    if (!workspacePath) {
+       return;
+    }
+    
+    var localPath = nova.workspace.config.get('codekit.folder');
+    
+    if (localPath !== null) {
+       return workspacePath + '/' + localPath;
+    } else {
+       return workspacePath;
+    }
+}
 
 function addProjectToCodeKit()
 {
