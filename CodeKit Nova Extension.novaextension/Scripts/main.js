@@ -201,7 +201,6 @@ nova.commands.register("CodeKit.buildProject", (workspace) =>
 });
 
 
-
 /// Show App
 nova.commands.register("CodeKit.showApp", (workspace) =>
 {
@@ -224,6 +223,11 @@ nova.commands.register("CodeKit.showApp", (workspace) =>
 });
 
 
+/// Switch to Project
+nova.commands.register("CodeKit.showProjectInApp", (workspace) =>
+{
+   switchProjectInCodeKit();
+});
 
 /// Preview In Browser
 nova.commands.register("CodeKit.previewProject", (workspace) => 

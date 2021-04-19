@@ -41,6 +41,10 @@
             {
                 "title": "Show CodeKit",
                 "command": "CodeKit.showApp"
+            },
+            {
+                "title": "Switch to Project in CodeKit",
+                "command": "CodeKit.showProjectInApp"
             }
         ]
     },
