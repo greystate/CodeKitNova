@@ -1,4 +1,9 @@
-## Version 1.1
+## Version 1.2
+
+##### 20 April 2021
+
+- Support for having the CodeKit folder in a subfolder of the Workspace root
+- Added a "Switch to Project in CodeKit" command
 
 ##### 22 October 2020
 
