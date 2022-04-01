@@ -1,3 +1,9 @@
+## Version 1.3
+
+##### 1 April 2022
+
+- Make the CodeKit subfolder configurable via Nova's GUI
+
 ## Version 1.2
 
 ##### 20 April 2021
