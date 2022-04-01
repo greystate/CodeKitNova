@@ -26,9 +26,12 @@ function pathToCodeKitFolder() {
     }
 
     var localPath = nova.workspace.config.get('com.CodeKitApp.Nova.codekitFolder');
+    var localPathDeprecated = nova.workspace.config.get('codekit.folder');
 
     if (localPath !== null && localPath !== "") {
        return localPath;
+    } else if (localPathDeprecated !== null && localPathDeprecated !== "") {
+       return nova.path.join(workspacePath, localPathDeprecated);
     } else {
        return workspacePath;
     }
