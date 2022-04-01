@@ -25,10 +25,12 @@ function pathToCodeKitFolder() {
        return;
     }
     
-    var localPath = nova.workspace.config.get('codekit.folder');
     
-    if (localPath !== null) {
-       return workspacePath + '/' + localPath;
+
+    var localPath = nova.workspace.config.get('com.CodeKitApp.Nova.codekitFolder');
+
+    if (localPath !== null && localPath !== "") {
+       return localPath;
     } else {
        return workspacePath;
     }

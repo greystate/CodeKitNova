@@ -7,20 +7,20 @@
     "repository": "https://github.com/bdkjones/CodeKitNova",
     "bugs": "https://github.com/bdkjones/CodeKitNova/issues",
     "funding": "https://codekitapp.com/purchase/",
-    "version": "1.2",
+    "version": "1.3",
     "categories": ["tasks", "commands"],
-    
+
     "main": "main.js",
-    
+
     "activationEvents": [
         "*"
     ],
-    
+
     "entitlements": {
         "process": true,
         "filesystem": "readonly"
     },
-    
+
     "commands": {
         "extensions": [
             {
@@ -36,7 +36,7 @@
                 "command": "CodeKit.previewProject"
             },
             {
-                 "separator": true  
+                 "separator": true
             },
             {
                 "title": "Show CodeKit",
@@ -48,8 +48,8 @@
             }
         ]
     },
-    
-    "config": [        
+
+    "config": [
         {
             "key": "com.CodeKitApp.Nova.autoAddProjects",
             "title": "Auto-Add Projects",
@@ -60,7 +60,7 @@
                 ["configFile", "When The Workspace Contains a CodeKit Config File", "Never"],
                 ["never", "Never"]
             ],
-            "default": "configFile"               
+            "default": "configFile"
         },
         {
             "key": "com.CodeKitApp.Nova.autoSwitchProjects",
@@ -68,7 +68,18 @@
             "description": "When you open a new Nova Workspace and that Workspace's root folder is also a CodeKit Project, should CodeKit automatically select that Project?",
             "type": "enum",
             "values": ["Yes", "No"],
-            "default": "Yes"               
+            "default": "Yes"
+        }
+    ],
+
+    "configWorkspace": [
+        {
+            "key": "com.CodeKitApp.Nova.codekitFolder",
+            "title": "Path to CodeKit folder",
+            "description": "If your project structure doesn't have CodeKit at the root folder, select the folder that contains the CodeKit config file (config.codekit3) here.",
+            "type" : "path",
+            "allowFiles": false,
+            "allowFolders": true
         }
     ]
 }
