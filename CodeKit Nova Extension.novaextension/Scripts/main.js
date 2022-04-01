@@ -1,9 +1,9 @@
-exports.activate = function() 
+exports.activate = function()
 {
     nova.workspace.onDidChangePath(workspaceDidChangePath(), null);
 }
 
-exports.deactivate = function() 
+exports.deactivate = function()
 {
     // nothing, currently
 }
@@ -16,7 +16,7 @@ exports.deactivate = function()
 
 
 
-/// 
+///
 /// Internal Functions
 /// ------------------------------------------------------------------------------------------------------------------
 function pathToCodeKitFolder() {
@@ -24,8 +24,6 @@ function pathToCodeKitFolder() {
     if (!workspacePath) {
        return;
     }
-    
-    
 
     var localPath = nova.workspace.config.get('com.CodeKitApp.Nova.codekitFolder');
 
@@ -47,7 +45,7 @@ function addProjectToCodeKit()
     var options = {
         args: [ "-e", scriptCommand]
     };
-        
+
     var process = new Process("/usr/bin/osascript", options);
     process.start();
 }
@@ -59,12 +57,12 @@ function switchProjectInCodeKit()
     if (!codekitPath) {
         return;
     }
-    
+
     var scriptCommand = 'tell application "CodeKit" to select project containing path "' + codekitPath + '"';
     var options = {
         args: [ "-e", scriptCommand]
     };
-    
+
     var process = new Process("/usr/bin/osascript", options);
     process.start();
 }
@@ -77,39 +75,39 @@ function workspaceDidChangePath(newPath)
     if (!codekitPath) {
         return;
     }
-    
+
     var autoAddProject = nova.config.get('com.CodeKitApp.Nova.autoAddProjects');
-    
+
     // If the Project is already in CodeKit, this command will do nothing. We can safely call it regardless.
     if (autoAddProject == 'configFile')
     {
         // This isn't GREAT because any file with this name will trigger; we don't verify the file actually
         // contains CodeKit data. But I already feel dirty writing JavaScript and I don't wanna write more.
         // Not an edge case worth worrying about. No security risk if we add a junk project to CodeKit.
-        var configFilePath = codekitPath + "/config.codekit3";                  
+        var configFilePath = codekitPath + "/config.codekit3";
         var configExists = (!nova.fs.stat(configFilePath)) ? false : true;
-        
-        if (!configExists) 
+
+        if (!configExists)
         {
             // CodeKit config files can optionally be hidden.
             var altConfigFilePath = codekitPath + "/.config.codekit3";
             configExists = (!nova.fs.stat(altConfigFilePath)) ? false : true;
         }
-        
+
         if (configExists) {
             addProjectToCodeKit();
         }
     }
-    else if (autoAddProject == 'always') 
+    else if (autoAddProject == 'always')
     {
         addProjectToCodeKit();
     }
-    
+
     // If the Project was newly-added to CodeKit, it automatically gets selected and this call is superfluous. But if the
     // Project was already IN CodeKit (not newly added), this call is necessary because the "add Project" method will not
     // select the given Project if it's already in CodeKit; the method becomes a no-op.
     var autoSwitchProject = nova.config.get('com.CodeKitApp.Nova.autoSwitchProjects');
-    if (autoSwitchProject == 'Yes')        
+    if (autoSwitchProject == 'Yes')
     {
         // This does nothing if the Project is already selected OR not in CodeKit.
         switchProjectInCodeKit();
@@ -123,13 +121,13 @@ function workspaceDidChangePath(newPath)
 
 
 
-/// 
+///
 /// Nova Menu Commands
 /// ------------------------------------------------------------------------------------------------------------------
 
 
 ///  Refresh Project
-nova.commands.register("CodeKit.refreshProject", (workspace) => 
+nova.commands.register("CodeKit.refreshProject", (workspace) =>
 {
     var codekitPath = pathToCodeKitFolder();
     if (!codekitPath)
@@ -139,20 +137,20 @@ nova.commands.register("CodeKit.refreshProject", (workspace) =>
         );
         return;
     }
-      
+
     var scriptCommand = 'tell application "CodeKit" to refresh project containing path "' + codekitPath + '"';
     var options = {
         args: ["-e", scriptCommand]
     };
     var process = new Process("/usr/bin/osascript", options);
-    
+
     var lines = [];
     process.onStderr(function (data) {
         if (data) {
             lines.push(data);
         }
     });
-      
+
     process.onDidExit(function (status) {
         if (status != 0) {
             nova.workspace.showInformativeMessage(
@@ -160,14 +158,14 @@ nova.commands.register("CodeKit.refreshProject", (workspace) =>
             );
         }
     });
-      
+
     process.start();
 });
 
 
 
 ///  Build Project
-nova.commands.register("CodeKit.buildProject", (workspace) => 
+nova.commands.register("CodeKit.buildProject", (workspace) =>
 {
     var codekitPath = pathToCodeKitFolder();
     if (!codekitPath)
@@ -177,20 +175,20 @@ nova.commands.register("CodeKit.buildProject", (workspace) =>
         );
         return;
     }
-      
+
     var scriptCommand = 'tell application "CodeKit" to build project containing path "' + codekitPath + '"';
     var options = {
         args: [ "-e", scriptCommand]
     };
     var process = new Process("/usr/bin/osascript", options);
-    
+
     var lines = [];
     process.onStderr(function (data) {
         if (data) {
             lines.push(data);
         }
     });
-      
+
     process.onDidExit(function (status) {
         if (status != 0) {
             nova.workspace.showInformativeMessage(
@@ -198,7 +196,7 @@ nova.commands.register("CodeKit.buildProject", (workspace) =>
             );
         }
     });
-      
+
     process.start();
 });
 
@@ -210,9 +208,9 @@ nova.commands.register("CodeKit.showApp", (workspace) =>
         args: [ "-a", "CodeKit"]
     };
     var process = new Process("/usr/bin/open", options);
-    
+
     process.onDidExit(function (status) {
-        if (status != 0) 
+        if (status != 0)
         {
             // This is really the only likely error here, bar serious system corruption.
             nova.workspace.showErrorMessage(
@@ -220,7 +218,7 @@ nova.commands.register("CodeKit.showApp", (workspace) =>
             );
         }
     });
-      
+
     process.start();
 });
 
@@ -232,7 +230,7 @@ nova.commands.register("CodeKit.showProjectInApp", (workspace) =>
 });
 
 /// Preview In Browser
-nova.commands.register("CodeKit.previewProject", (workspace) => 
+nova.commands.register("CodeKit.previewProject", (workspace) =>
 {
    var scriptCommand = 'tell application "CodeKit" to preview in browser using local feedback address';
    var options = {
