@@ -1,8 +1,9 @@
 ## Version 1.3.1
 
-##### 1 April 2022
+##### April 2021
 
 - Make the CodeKit subfolder configurable via Nova's GUI
+- Added Kit Language Syntax & clips
 
 ## Version 1.2
 
