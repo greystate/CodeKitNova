@@ -1,14 +1,14 @@
 ## Version 1.3.1
 
-##### April 2021
+##### April 2022
 
 - Make the CodeKit subfolder configurable via Nova's GUI
-- Added Kit Language Syntax & clips
 
 ## Version 1.2
 
 ##### 20 April 2021
 
+- Added Kit Language Syntax & clips
 - Support for having the CodeKit folder in a subfolder of the Workspace root
 - Added a "Switch to Project in CodeKit" command
 
